@@ -43,10 +43,22 @@ router.post('/', async (req, res) => {
 router.put('/:id', (req, res) => {
     User.FindOneAndUpdate({
         _id: ObjectId(`${req.params.id}`)
+    }, {
+        $set: {
+            "username": req.body.username,
+            "email": req.body.email
+        }
+    }, (err, result) => {
+        if (result) {
+            res.status(200).json(result)
+        } else {
+            console.log("oops an error")
+            res.status(500).json(err)
+        }
     })
 })
 //Delete user by _id
-router.delete(':id', (req, res) => {
+router.delete('/:id', (req, res) => {
     User.findOneAndDelete({ _id: ObjectId(`${req.params.id}`) }, (err, result) => {
         if (result) {
             res.status(200).json(result)
@@ -57,3 +69,5 @@ router.delete(':id', (req, res) => {
         }
     })
 })
+
+module.exports = router
