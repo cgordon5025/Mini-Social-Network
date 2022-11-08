@@ -31,9 +31,9 @@ const UserSchema = new Schema(
         }
     }
 );
-UserSchema.virtual('friendCount').get(function () {
-    return this.friends.length
-})
+// UserSchema.virtual('friendCount').get(function () {
+//     return this.friends.length
+// })
 //the User in quotes is the name of our model in the document
 const User = model('User', UserSchema)
 

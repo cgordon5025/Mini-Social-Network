@@ -15,7 +15,7 @@ router.get('/', async (req, res) => {
 //Find a single user by their _id
 router.get('/:id', async (req, res) => {
     User.findOne({
-        _id: ObjectId(`${req.params.id}`)
+        _id: `${req.params.id}`
     }, (err, result) => {
         if (result) {
             res.status(200).json(result)
@@ -41,8 +41,8 @@ router.post('/', async (req, res) => {
 })
 //Update a user by _id
 router.put('/:id', (req, res) => {
-    User.FindOneAndUpdate({
-        _id: ObjectId(`${req.params.id}`)
+    User.findOneAndUpdate({
+        _id: `${req.params.id}`
     }, {
         $set: {
             "username": req.body.username,
@@ -59,7 +59,7 @@ router.put('/:id', (req, res) => {
 })
 //Delete user by _id
 router.delete('/:id', (req, res) => {
-    User.findOneAndDelete({ _id: ObjectId(`${req.params.id}`) }, (err, result) => {
+    User.findOneAndDelete({ _id: `${req.params.id}` }, (err, result) => {
         if (result) {
             res.status(200).json(result)
             console.log(`Deleted ${result}`)

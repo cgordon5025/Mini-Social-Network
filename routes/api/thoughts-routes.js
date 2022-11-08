@@ -14,7 +14,7 @@ router.get('/', async (req, res) => {
 
 router.get('/:id', async (req, res) => {
     Thought.findOne({
-        _id: ObjectId(`${req.params.id}`)
+        _id: `${req.params.id}`
     }, (err, result) => {
         if (result) {
             res.status(200).json(result)
@@ -42,7 +42,7 @@ router.post('/', async (req, res) => {
 
 router.put('/:id', (req, res) => {
     Thought.findOneAndUpdate({
-        _id: ObjectId(`${req.params.id}`)
+        _id: `${req.params.id}`
     }, {
         $set: {
             "thoughtText": req.body.thoughtText,
@@ -60,7 +60,7 @@ router.put('/:id', (req, res) => {
 
 router.delete('/:id', (req, res) => {
     Thought.findOneAndDelete({
-        _id: ObjectId(`${req.params.id}`)
+        _id: `${req.params.id}`
     }, (err, result) => {
         if (result) {
             res.status(200).json(result)
