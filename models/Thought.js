@@ -1,6 +1,5 @@
 const { Schema, model } = require('mongoose');
 const reactionSchema = require('./Reaction')
-const formatDate = require('../utils/formatDate')
 
 const ThoughtSchema = new Schema(
     {
@@ -12,7 +11,10 @@ const ThoughtSchema = new Schema(
         },
         createdAt: {
             type: Date, default: Date.now,
-            get: createdAtVal => formatDate(createdAtVal)
+            get: createdAtVal => {
+                const newDate = new Date(createdAtVal)
+                return `${new Date(newDate).getMonth() + 1}/${new Date(newDate).getDate()}/${new Date(newDate).getFullYear()}`
+            }
         },
         //this is the user who created it, via ID and cookies?
         username: {
@@ -30,10 +32,34 @@ const ThoughtSchema = new Schema(
     }
 );
 
+
 ThoughtSchema.virtual('reactionCount').get(function () {
     return this.reactions.length
 })
 
 const Thought = model('Thought', ThoughtSchema)
+Thought.find({}).exec((err, collection) => {
+    if (collection.length == 0) {
+        Thought.insertMany([
+            {
+                thoughtText: "Wooooooooooooooo noSQL",
+                username: "john123"
+            },
+            {
+                thoughtText: "noSQL lol",
+                username: "sally"
+            },
+            {
+                thoughtText: "i like mongo",
+                username: "tom"
+            }
+        ],
+            (insertErr) => {
+                if (insertErr) {
+                    hnaldeError(insertErr)
+                }
+            })
+    }
+})
 
 module.exports = Thought

@@ -15,25 +15,24 @@ const UserSchema = new Schema(
             match: /.+\@.+\..+/,
         },
         //reference the thoughts
-        thoughts: {
+        thoughts: [{
             type: Schema.Types.ObjectId,
             ref: "Thought"
-        },
-        friends: {
+        }],
+        friends: [{
             type: Schema.Types.ObjectId,
             ref: "User"
-        }
+        }]
     },
     {
         toJSON: {
-            getters: true,
             virtuals: true
         }
     }
 );
-// UserSchema.virtual('friendCount').get(function () {
-//     return this.friends.length
-// })
+UserSchema.virtual('friendCount').get(function () {
+    return this.friends.length
+})
 //the User in quotes is the name of our model in the document
 const User = model('User', UserSchema)
 
