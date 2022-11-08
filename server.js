@@ -1,23 +1,21 @@
 const express = require('express')
 
-const mongodb = require('mongodb').MongoClient;
+//setting up the connection here
+const db = require('./config/connection')
+//unneccassary??
+// const mongodb = require('mongodb').MongoClient;
 
-const app = express();
 const routes = require('./routes')
 const PORT = process.env.PORT || 3001;
+const app = express();
 
-const connectionStringURI = `mongodb://127.0.0.1:27017/networkDB`;
-
-let db;
 
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(routes)
 
-mongodb.connect(
-    connectionStringURI,
-    { useNewUrlParser: true, useUnifiedTopology: true },
+db.once('open', () => {
     app.listen(PORT, () => {
-        console.log(`listening on port ${PORT}`)
+        console.log(`Listening on Port ${PORT}`)
     })
-)
+})
