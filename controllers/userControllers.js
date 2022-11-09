@@ -65,6 +65,34 @@ module.exports = {
                 console.log("Failed to delete user")
             }
         })
+    },
+    addFriend(req, res) {
+        User.findOneAndUpdate({
+            _id: req.params.id
+        }, {
+            $set: { friends: req.params.friendId }
+        }, (err, result) => {
+            if (result) {
+                res.status(200).json(result)
+            } else {
+                res.status(500).json(err)
+            }
+        })
+
+    },
+    deleteFriend(req, res) {
+        User.findOneAndUpdate({
+            _id: req.params.id
+        }, {
+            $pull: { friends: req.params.friendId }
+        }, (err, result) => {
+            if (result) {
+                res.status(200).json(result)
+            } else {
+                res.status(500).json(err)
+            }
+        })
+
     }
 
 }
