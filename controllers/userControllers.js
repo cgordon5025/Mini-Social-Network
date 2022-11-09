@@ -1,4 +1,4 @@
-const { User } = require('../models')
+const { User, Thought } = require('../models')
 
 module.exports = {
     getAllUser(req, res) {
@@ -53,18 +53,16 @@ module.exports = {
             }
         })
     },
-    deleteUser(req, res) {
-        User.findOneAndDelete({ _id: `${req.params.id}` }, (err, result) => {
-            if (result) {
-                res.status(200).json(result)
-                //if possibel delete all associated info as well
-                // Thought.findA
-                console.log(`Deleted ${result}`)
-            } else {
-                res.status(500).json(err)
-                console.log("Failed to delete user")
-            }
-        })
+    async deleteUser(req, res) {
+        const userData = await User.findById({ _id: req.params.id })
+        console.log(userData)
+        if (userData) {
+            await User.deleteOne({_id: req.params.id})
+            await Thought.deleteMany({ 'username': userData.username })
+            res.status(200).json({ message: "user deleted" })
+        } else {
+            res.stauts(500).json(err)
+        }
     },
     addFriend(req, res) {
         User.findOneAndUpdate({

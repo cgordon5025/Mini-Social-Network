@@ -16,7 +16,6 @@ const ThoughtSchema = new Schema(
                 return `${new Date(newDate).getMonth() + 1}/${new Date(newDate).getDate()}/${new Date(newDate).getFullYear()}`
             }
         },
-        //this is the user who created it, via ID and cookies?
         username: {
             type: String,
             required: true
@@ -56,7 +55,7 @@ Thought.find({}).exec((err, collection) => {
         ],
             (insertErr) => {
                 if (insertErr) {
-                    hnaldeError(insertErr)
+                    handleError(insertErr)
                 }
             })
     }

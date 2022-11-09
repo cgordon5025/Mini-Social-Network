@@ -2,8 +2,7 @@ const express = require('express')
 
 //setting up the connection here
 const db = require('./config/connection')
-//unneccassary??
-// const mongodb = require('mongodb').MongoClient;
+
 
 const routes = require('./routes')
 const PORT = process.env.PORT || 3001;
